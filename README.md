@@ -1,0 +1,1 @@
+# jpa-jsf-cdi-primefaces
