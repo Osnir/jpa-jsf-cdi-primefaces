@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:o="http://omnifaces.org/ui">
+
+	<f:metadata>
+		<o:viewParam name="id" value="#{despesaBean.despesa}"/>
+		<f:viewAction action="#{despesaBean.prepararCadastro}" />
+	</f:metadata>
+	
+	<ui:define name="titulo">Cadastro de despesas</ui:define>
+	
+	<ui:define name="corpo">
+		<h:form id="frm">
+			<p:messages showDetail="false" showSummary="true" autoUpdate="true" styleClass="mensagem"/>
+			
+			<div><h1>Cadastro de despesas</h1></div>
+			
+			<h:panelGrid columns="1" layout="grid" styleClass="ui-fluid painel">
+				<p:outputLabel value="Despesa" for="despesa"/>
+				<p:inputText id="despesa" size="60"
+					value="#{despesaBean.despesa.nome}"/>
+				
+				<p:outputLabel value="Categoria" for="categoria"/>
+				<p:autoComplete id="categoria" size="56"
+					dropdown="true"
+					cache="true"
+					var="categoria" forceSelection="true"
+					itemLabel="#{categoria.nome}"
+					itemValue="#{categoria}"
+					minQueryLength="2" maxResults="10"
+					value="#{despesaBean.despesa.categoria}"
+					completeMethod="#{despesaBean.pesquisarCategorias}"/>
+
+				<p:spacer height="10"/>
+				
+				<h:panelGroup>
+					<p:commandButton value="Salvar"
+						action="#{despesaBean.salvar}" 
+						icon="ui-icon-disk" update="@form"
+						styleClass="botao-grande"/>
+					<p:spacer width="5"/>	
+					<p:commandButton value="Salvar e Novo"
+						action="#{despesaBean.salvarNovo}" 
+						icon="ui-icon-check" update="@form"
+						styleClass="botao-grande"/>
+				</h:panelGroup>						
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

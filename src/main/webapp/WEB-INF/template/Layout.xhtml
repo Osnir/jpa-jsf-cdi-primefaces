@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+	  
+	<h:head>
+		<title>
+			<ui:insert name="titulo">Sistema Financeiro</ui:insert>
+		</title>
+	    <h:outputStylesheet library="css" name="estilo.css"/>
+	</h:head>
+	
+	<h:body>
+		<header>
+
+		</header>
+		
+		<h:form>
+			<p:menubar>
+				<p:submenu label="Cadastros">
+					<p:menuitem value="Categoria"
+						action="/pages/interno/CadastroCategoria?faces-redirect=true" />
+					<p:menuitem value="Despesa"
+						action="/pages/interno/CadastroDespesa?faces-redirect=true" />						
+					<p:menuitem value="Lançamento"
+						action="/pages/interno/CadastroLancamento?faces-redirect=true" />				
+				</p:submenu>
+				<p:submenu label="Consultas">
+					<p:menuitem value="Categorias"
+						action="/pages/interno/ConsultaCategorias?faces-redirect=true" />					
+					<p:menuitem value="Despesas"
+						action="/pages/interno/ConsultaDespesas?faces-redirect=true" />					
+					<p:menuitem value="Lançamentos"
+						action="/pages/interno/ConsultaLancamentos?faces-redirect=true" />				
+				</p:submenu>
+				<p:submenu label="Sistema">
+					<p:menuitem value="Sair" action="#{loginBean.logout}"/>
+				</p:submenu>
+				
+			</p:menubar>
+		</h:form>
+
+		<div id="conteudo">
+			<ui:insert name="corpo"/>
+		</div>
+		
+		<p:ajaxStatus styleClass="ajax-status">
+			<f:facet name="start">
+				<h:graphicImage library="img" name="loading.gif"/>	
+			</f:facet>
+			<f:facet name="complete">
+				<h:outputText value="" />
+			</f:facet>
+		</p:ajaxStatus>
+		
+		<footer>
+			
+		</footer>
+	</h:body>
+</html>		
+		

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/template/Layout.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	  xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewAction action="#{categoriaBean.consultar}"/>
+	</f:metadata>
+
+	<ui:define name="titulo">Consulta de categorias</ui:define>
+			
+	<ui:define name="corpo">
+		<h:form id="frm">
+			<p:messages showDetail="false" showSummary="true" autoUpdate="true" styleClass="mensagem"/>
+			
+			<div><h1>Categorias</h1></div>
+			
+			<p:commandButton value="Novo" icon="ui-icon-plus" 
+				styleClass="botao-medio" action="#{categoriaBean.novaCategoria}" />
+				
+			<h:panelGroup id="pngPesquisa" style="float: right" styleClass="panel-filtro">
+				<p:inputText value="#{categoriaBean.filtro}" placeholder="Pesquisar..." size="50"/>
+				<p:commandButton
+					actionListener="#{categoriaBean.pesquisar}" 
+					process="pngPesquisa" update="gridCategoria" icon="ui-icon-search"/>
+			</h:panelGroup>
+			
+			<p:dataTable id="gridCategoria" value="#{categoriaBean.categorias}"
+				var="entity" border="1" cellspacing="0"
+				cellpadding="2" paginator="true" rows="5"
+				paginatorPosition="bottom"
+				emptyMessage="Nenhum registro encontrado.">
+				<p:column headerText="Id" sortBy="#{entity.id}" width="50" style="text-align: right">
+					<h:outputText value="#{entity.id}"/>
+				</p:column>
+				<p:column headerText="Nome" sortBy="#{entity.nome}">
+					<h:outputText value="#{entity.nome}"/>
+				</p:column>
+				<p:column headerText="Situação" sortBy="#{entity.situacao}" width="100">
+					<h:outputText value="#{entity.situacao.descricao}"/>
+				</p:column>
+				
+				<p:column width="30">
+					<p:button icon="ui-icon-pencil" title="Editar"
+						outcome="/pages/interno/CadastroCategoria">
+						<f:param name="id" value="#{entity.id}"/>
+					</p:button>
+				</p:column>
+				<p:column width="30">
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						process="@this" onclick="PF('dlgExcluirVar').show();">
+						<f:setPropertyActionListener value="#{entity}"
+							target="#{categoriaBean.categoria}"/>
+					</p:commandButton>
+				</p:column>																
+			</p:dataTable>
+			
+			<!-- MODAL EXCLUIR -->
+			<p:dialog id="dlgExcluir" widgetVar="dlgExcluirVar" header="Aviso"
+				modal="true" resizable="false" closable="false" width="350" height="100">
+				<div class="mensagem">
+					<h:outputLabel value="Deseja excluir a categoria?"/>
+				</div>
+				
+				<div class="botoes">
+					<p:commandButton value="Sim" process="@this" update="frm:gridCategoria" 
+						actionListener="#{categoriaBean.excluir}" onclick="dlgExcluirVar.hide();"
+						styleClass="botao-medio"/>
+					<p:commandButton value="Não" process="@this"
+						onclick="dlgExcluirVar.hide();" styleClass="botao-medio"/>
+				</div>
+			 </p:dialog>
+		</h:form>	
+	</ui:define>
+</ui:composition>

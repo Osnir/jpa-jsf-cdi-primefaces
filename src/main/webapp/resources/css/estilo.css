@@ -1,0 +1,92 @@
+@CHARSET "UTF-8";
+
+body {
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0px;
+	font-weight: normal;
+}
+
+header {
+	/*
+	padding: 5px;
+	margin-bottom: 10px;
+	height: 50px;
+	background-color: #545454;
+	color: #fff;
+	box-shadow: 0px 2px 2px #ccc
+	*/
+	
+}
+
+#conteudo {
+	padding: 0px 20px
+}
+
+footer {
+	font-size: 16px;
+	border-top: 1px solid #ccc;
+	padding: 5px 30px;
+	margin-top: 20px;
+	margin-bottom: 10px
+}
+
+h1 {
+	font-size: 24px;
+	font-weight: 500;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px
+}
+
+.ajax-status {
+	position: fixed;
+	top: 50%;
+	right: 50%;
+	width: 35px;
+	height: 35px
+}
+
+#login-dialog {
+	width: 260px;
+	margin: auto;
+	margin-top: 150px;
+}
+
+.grid-login {
+	background-color: #f2f2f2;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	margin-top: 8px;
+	padding: 10px;
+	width: 100%
+}
+
+.ui-panelgrid-content {
+	border: none;
+}
+
+.ui-panelgrid-cell {
+	height: 50px;
+}
+
+div.botoes {
+	padding-top: 30px;
+	padding-bottom: 5px;
+}
+
+div.mensagem {
+	padding-top: 10px;
+}
+
+.botao-medio {
+	width: 100px;
+}
+
+.botao-grande {
+	width: 130px;
+}
+
+.panel-filtro {
+	padding-bottom: 15px;
+}
