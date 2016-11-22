@@ -1,7 +1,6 @@
 package com.financeiro.service;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -10,7 +9,7 @@ import com.financeiro.model.Lancamento;
 import com.financeiro.repository.Lancamentos;
 import com.financeiro.util.Transactional;
 
-public class CadastroLancamentos implements Serializable {
+public class LancamentoService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,20 +17,20 @@ public class CadastroLancamentos implements Serializable {
 	private Lancamentos lancamentos;
 
 	@Transactional
-	public Lancamento Salvar(Lancamento lancamento) throws NegocioException, DataAccessException {
-		if (lancamento.getDataPagamento() != null && lancamento.getDataPagamento().after(new Date())) {
-			throw new NegocioException("Data de pagamento não pode ser uma data futura.");
+	public Lancamento Salvar(Lancamento lancamento) throws BusinessException, DataAccessException {
+		if (!lancamento.dataPagamentoValida()) {
+			throw new BusinessException("Data de pagamento não pode ser uma data futura.");
 		}
 		
 		return this.lancamentos.salvar(lancamento);
 	}
 	
 	@Transactional
-	public void excluir(Lancamento lancamento) throws NegocioException, DataAccessException {
+	public void excluir(Lancamento lancamento) throws BusinessException, DataAccessException {
 		lancamento = this.lancamentos.porId(lancamento.getId());
 		
 		if (lancamento.getDataPagamento() != null) {
-			throw new NegocioException("Não é possível excluir um lançamento pago!");
+			throw new BusinessException("Não é possível excluir um lançamento pago!");
 		}
 		
 		this.lancamentos.excluir(lancamento);

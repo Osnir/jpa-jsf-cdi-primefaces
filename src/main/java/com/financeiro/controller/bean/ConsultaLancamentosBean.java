@@ -7,8 +7,8 @@ import javax.inject.Named;
 
 import com.financeiro.model.Lancamento;
 import com.financeiro.repository.Lancamentos;
-import com.financeiro.service.CadastroLancamentos;
-import com.financeiro.service.NegocioException;
+import com.financeiro.service.LancamentoService;
+import com.financeiro.service.BusinessException;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -19,7 +19,7 @@ public class ConsultaLancamentosBean extends BaseBean {
 	@Inject
 	private Lancamentos lancamentosRepository;
 	@Inject
-	private CadastroLancamentos cadastro;
+	private LancamentoService cadastro;
 
 	private Lancamento lancamentoSelecionado;
 	private List<Lancamento> lancamentos;
@@ -28,7 +28,7 @@ public class ConsultaLancamentosBean extends BaseBean {
 		try {
 			this.cadastro.excluir(this.lancamentoSelecionado);
 			this.consultar();
-		} catch (NegocioException e) {
+		} catch (BusinessException e) {
 			this.addErrorMessage(e);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao excluir registro.");

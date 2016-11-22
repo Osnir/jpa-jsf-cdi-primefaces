@@ -12,7 +12,7 @@ import com.financeiro.repository.Despesas;
 import com.financeiro.repository.Lancamentos;
 import com.financeiro.util.Transactional;
 
-public class CadastroDespesa implements Serializable {
+public class DespesaService implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,20 +22,20 @@ public class CadastroDespesa implements Serializable {
 	private Lancamentos lancamentos;
 	
 	@Transactional
-	public Despesa Salvar(Despesa despesa) throws NegocioException, DataAccessException {
+	public Despesa Salvar(Despesa despesa) throws BusinessException, DataAccessException {
 		if (this.DespesaExistente(despesa)) {
-			throw new NegocioException("Já existe uma despesa cadastrada com esse nome.");
+			throw new BusinessException("Já existe uma despesa cadastrada com esse nome.");
 		}
 		
 		return this.despesas.salvar(despesa);
 	}
 	
 	@Transactional
-	public void excluir(Despesa despesa) throws NegocioException, DataAccessException{
+	public void excluir(Despesa despesa) throws BusinessException, DataAccessException{
 		despesa = this.despesas.porId(despesa.getId());
 		
 		if (this.DespesaUtilizada(despesa)) {
-			throw new NegocioException("Esta despesa está sendo utilizada por um ou mais lançamentos.");
+			throw new BusinessException("Esta despesa está sendo utilizada por um ou mais lançamentos.");
 		}
 		
 		this.despesas.excluir(despesa);

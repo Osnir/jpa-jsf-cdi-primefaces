@@ -6,13 +6,16 @@ import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+
 import com.financeiro.model.Despesa;
 import com.financeiro.model.Lancamento;
 import com.financeiro.model.TipoLancamento;
 import com.financeiro.repository.Despesas;
 import com.financeiro.repository.Lancamentos;
-import com.financeiro.service.CadastroLancamentos;
-import com.financeiro.service.NegocioException;
+import com.financeiro.service.LancamentoService;
+import com.financeiro.service.BusinessException;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -25,7 +28,7 @@ public class LancamentoBean extends BaseBean {
 	@Inject
 	private Despesas despesaRepository;
 	@Inject
-	private CadastroLancamentos service;
+	private LancamentoService service;
 
 	private Lancamento lancamento;
 	private List<Lancamento> lancamentos;
@@ -46,7 +49,7 @@ public class LancamentoBean extends BaseBean {
 		try {
 			this.lancamento = this.service.Salvar(lancamento);
 			this.addInfoMessage("Lançamento salvo com sucesso!");
-		} catch (NegocioException e) {
+		} catch (BusinessException e) {
 			this.addErrorMessage(e);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao salvar registro.");
@@ -58,7 +61,7 @@ public class LancamentoBean extends BaseBean {
 			this.service.Salvar(lancamento);
 			this.lancamento = new Lancamento();
 			this.addInfoMessage("Lançamento salvo com sucesso!");
-		} catch (NegocioException ex) {
+		} catch (BusinessException ex) {
 			this.addErrorMessage(ex);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao salvar registro.");
@@ -69,7 +72,7 @@ public class LancamentoBean extends BaseBean {
 		try {
 			this.service.excluir(this.lancamento);
 			this.consultar();
-		} catch (NegocioException e) {
+		} catch (BusinessException e) {
 			this.addErrorMessage(e);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao excluir registro.");
@@ -107,6 +110,16 @@ public class LancamentoBean extends BaseBean {
 		}
 	}
 
+	public void comprovanteListener(FileUploadEvent event) {
+		UploadedFile uploadedFile = event.getFile();
+
+		try {
+			this.lancamento.setComprovantePagamento(uploadedFile.getContents());
+		} catch (Exception e) {
+			this.addErrorMessage("Erro ao carregar comprovante de pagamento.");
+		}
+	}
+	
 	public List<Lancamento> getLancamentos() {
 		return lancamentos;
 	}

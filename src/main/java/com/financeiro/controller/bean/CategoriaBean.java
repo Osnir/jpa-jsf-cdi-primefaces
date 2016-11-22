@@ -7,8 +7,8 @@ import javax.inject.Named;
 
 import com.financeiro.model.Categoria;
 import com.financeiro.repository.Categorias;
-import com.financeiro.service.CadastroCategoria;
-import com.financeiro.service.NegocioException;
+import com.financeiro.service.CategoriaService;
+import com.financeiro.service.BusinessException;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -19,7 +19,7 @@ public class CategoriaBean extends BaseBean {
 	@Inject
 	private Categorias repository;
 	@Inject
-	private CadastroCategoria service;
+	private CategoriaService service;
 	
 	private Categoria categoria;
 	private List<Categoria> categorias;
@@ -37,7 +37,7 @@ public class CategoriaBean extends BaseBean {
 		try {
 			this.categoria = this.service.Salvar(this.categoria);
 			this.addInfoMessage("Categoria salva com sucesso!");
-		} catch (NegocioException e) {
+		} catch (BusinessException e) {
 			this.addErrorMessage(e);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao salvar registro.");
@@ -49,7 +49,7 @@ public class CategoriaBean extends BaseBean {
 			this.service.Salvar(categoria);
 			this.categoria = new Categoria();
 			this.addInfoMessage("Categoria salva com sucesso!");
-		} catch (NegocioException ex) {
+		} catch (BusinessException ex) {
 			this.addErrorMessage(ex);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao salvar registro.");
@@ -61,7 +61,7 @@ public class CategoriaBean extends BaseBean {
 			this.service.excluir(this.categoria);
 			this.consultar();
 			this.addInfoMessage("Categoria excluída com sucesso!");
-		} catch (NegocioException ex) {
+		} catch (BusinessException ex) {
 			this.addErrorMessage(ex);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao excluir registro.");

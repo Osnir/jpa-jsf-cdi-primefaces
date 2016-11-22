@@ -9,8 +9,8 @@ import com.financeiro.model.Categoria;
 import com.financeiro.model.Despesa;
 import com.financeiro.repository.Categorias;
 import com.financeiro.repository.Despesas;
-import com.financeiro.service.CadastroDespesa;
-import com.financeiro.service.NegocioException;
+import com.financeiro.service.DespesaService;
+import com.financeiro.service.BusinessException;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -23,7 +23,7 @@ public class DespesaBean extends BaseBean {
 	@Inject
 	private Categorias categoriaRepository;
 	@Inject
-	private CadastroDespesa service;
+	private DespesaService service;
 
 	private Despesa despesa;
 	private List<Despesa> despesas;
@@ -42,7 +42,7 @@ public class DespesaBean extends BaseBean {
 		try {
 			this.despesa = this.service.Salvar(this.despesa);
 			this.addInfoMessage("Despesa salva com sucesso!");
-		} catch (NegocioException e) {
+		} catch (BusinessException e) {
 			this.addErrorMessage(e);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao salvar registro.");
@@ -54,7 +54,7 @@ public class DespesaBean extends BaseBean {
 			this.service.Salvar(despesa);
 			this.despesa = new Despesa();
 			this.addInfoMessage("Despesa salva com sucesso!");
-		} catch (NegocioException ex) {
+		} catch (BusinessException ex) {
 			this.addErrorMessage(ex);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao salvar registro.");
@@ -66,7 +66,7 @@ public class DespesaBean extends BaseBean {
 			this.service.excluir(this.despesa);
 			this.consultar();
 			this.addInfoMessage("Despesa excluída com sucesso!");
-		} catch (NegocioException ex) {
+		} catch (BusinessException ex) {
 			this.addErrorMessage(ex);
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao excluir registro.");

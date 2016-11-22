@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.financeiro</groupId>
-	<artifactId>AlgaWorkFinanceiro</artifactId>
+	<artifactId>Financeiro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
@@ -73,16 +73,16 @@
 			<version>5.1.3.Final</version>
 			<scope>compile</scope>
 		</dependency>
-		
-		<!-- Weld (implementação do CDI) -->		
+
+		<!-- Weld (implementação do CDI) -->
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
 			<version>2.2.9.Final</version>
 			<scope>compile</scope>
-		</dependency>  
-		
-		<!-- Weld depende do Jandex --> 	
+		</dependency>
+
+		<!-- Weld depende do Jandex -->
 		<dependency>
 			<groupId>org.jboss</groupId>
 			<artifactId>jandex</artifactId>
@@ -92,10 +92,10 @@
 
 		<!-- OmniFaces (utilitarios para JSF) -->
 		<dependency>
-		    <groupId>org.omnifaces</groupId>
-		    <artifactId>omnifaces</artifactId>
-		    <version>2.5.1</version>
-		    <scope>compile</scope>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>2.5.1</version>
+			<scope>compile</scope>
 		</dependency>
 
 		<!-- Primefaces -->
@@ -104,6 +104,18 @@
 			<artifactId>primefaces</artifactId>
 			<version>5.1</version>
 			<scope>compile</scope>
+		</dependency>
+
+		<!-- FileUpload -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.3.2</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.2</version>
 		</dependency>
 	</dependencies>
 </project>

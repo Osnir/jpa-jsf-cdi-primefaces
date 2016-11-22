@@ -15,12 +15,12 @@
 	<ui:define name="titulo">Cadastro de lançamento</ui:define>
 	
 	<ui:define name="corpo">
-		<h:form id="frm">
+		<h:form id="frm" enctype="multipart/form-data">
 			<p:messages showDetail="false" showSummary="true" autoUpdate="true" styleClass="mensagem" />
 			
 			<div><h1>Cadastro de lançamento</h1></div>
 			
-			<h:panelGrid columns="2" layout="grid" styleClass="ui-fluid painel">
+			<h:panelGrid columns="1" layout="grid" styleClass="ui-fluid painel">
 				<p:outputLabel value="Tipo" for="tipo"/>
 				<p:selectOneRadio id="tipo" value="#{lancamentoBean.lancamento.tipo}">
 					<f:selectItems value="#{lancamentoBean.tiposLancamentos}"
@@ -59,14 +59,20 @@
 				<p:outputLabel value="Data de pagamento" for="dataPagamento" />
 				<p:calendar id="dataPagamento" size="12" pattern="dd/MM/yyyy"
 					value="#{lancamentoBean.lancamento.dataPagamento}"/>
-				<h:outputLabel />
+
+				<p:outputLabel value="Comprovante de pagamento" for="comprovante" />
+				<p:fileUpload id="comprovante" auto="true" process="@this"
+					fileUploadListener="#{lancamentoBean.comprovanteListener}" />
+				
 				<h:panelGroup>
 					<p:commandButton value="Salvar"
+						ajax="false"
 						action="#{lancamentoBean.salvar}" 
 						icon="ui-icon-disk" update="@form"
 						styleClass="botao-grande"/>
 					<p:spacer width="5"/>	
 					<p:commandButton value="Salvar e Novo"
+						ajax="false"
 						action="#{lancamentoBean.salvarNovo}" 
 						icon="ui-icon-check" update="@form"
 						styleClass="botao-grande"/>

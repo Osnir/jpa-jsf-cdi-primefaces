@@ -4,13 +4,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -46,6 +49,14 @@ public class Lancamento implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_pagamento", nullable = true)	
 	private Date dataPagamento;
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name = "comprovante_pagamento", nullable = true)
+	private byte[] comprovantePagamento;
+	
+	public Lancamento() {
+		this.tipo = TipoLancamento.DESPESA;
+	}
 	
 	public Long getId() {
 		return id;
@@ -82,6 +93,16 @@ public class Lancamento implements Serializable {
 	}
 	public void setDataPagamento(Date dataPagamento) {
 		this.dataPagamento = dataPagamento;
+	}	
+	public byte[] getComprovantePagamento() {
+		return comprovantePagamento;
+	}
+	public void setComprovantePagamento(byte[] comprovantePagamento) {
+		this.comprovantePagamento = comprovantePagamento;
+	}
+
+	public boolean dataPagamentoValida() {
+		return getDataPagamento() == null || !getDataPagamento().after(new Date());	
 	}
 	
 	@Override

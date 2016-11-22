@@ -1,10 +1,10 @@
 package com.financeiro.service;
 
-public class NegocioException extends Exception {
+public class BusinessException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public NegocioException(String msg) {
+	public BusinessException(String msg) {
 		super(msg);
 	}
 }
