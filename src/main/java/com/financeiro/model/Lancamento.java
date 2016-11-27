@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import com.financeiro.util.Util;
 import com.financeiro.validation.DecimalPositivo;
 
 @Entity
@@ -49,6 +50,8 @@ public class Lancamento implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_pagamento", nullable = true)	
 	private Date dataPagamento;
+	@Column(name = "nome_comprovante", length = 60, nullable = true)
+	private String nomeComprovante;
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "comprovante_pagamento", nullable = true)
@@ -94,6 +97,12 @@ public class Lancamento implements Serializable {
 	public void setDataPagamento(Date dataPagamento) {
 		this.dataPagamento = dataPagamento;
 	}	
+	public String getNomeComprovante() {
+		return nomeComprovante;
+	}
+	public void setNomeComprovante(String nomeComprovante) {
+		this.nomeComprovante = nomeComprovante;
+	}
 	public byte[] getComprovantePagamento() {
 		return comprovantePagamento;
 	}
@@ -105,6 +114,20 @@ public class Lancamento implements Serializable {
 		return getDataPagamento() == null || !getDataPagamento().after(new Date());	
 	}
 	
+	public String getNomeArquivo() {
+		if (!Util.isEmptyOrNull(this.nomeComprovante)) {
+			return this.nomeComprovante.split("\\|")[0];
+		}		
+		return null;
+	}
+
+	public String getContentType() {
+		if (!Util.isEmptyOrNull(this.nomeComprovante)) {
+			return this.nomeComprovante.split("\\|")[1];
+		}		
+		return null;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

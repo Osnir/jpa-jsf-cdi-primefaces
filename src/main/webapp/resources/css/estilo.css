@@ -90,3 +90,17 @@ div.mensagem {
 .panel-filtro {
 	padding-bottom: 15px;
 }
+
+/***** Fileupload ******/
+.ui-widget-header {
+	border: none;
+	background: none;
+}
+
+.ui-fileupload-buttonbar {
+	padding: 0px;	
+}
+
+.ui-fileupload-content {
+	display: none;	
+}

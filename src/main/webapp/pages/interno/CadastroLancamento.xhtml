@@ -48,36 +48,45 @@
 				
 				<p:outputLabel value="Data de vencimento" for="dataVencimento"/>
 				<p:calendar id="dataVencimento" size="12" pattern="dd/MM/yyyy"
-					value="#{lancamentoBean.lancamento.dataVencimento}">
-					<p:ajax event="dateSelect" update="@this dataPagamento"
-						process="@this dataPagamento"
-						listener="#{lancamentoBean.dataVencimentoAlterada}"/>					
-					<p:ajax event="change" update="@this dataPagamento"
-						process="@this dataPagamento"
-						listener="#{lancamento.dataVencimentoAlterada}"/>
-				</p:calendar>
+					value="#{lancamentoBean.lancamento.dataVencimento}"/>
+					
 				<p:outputLabel value="Data de pagamento" for="dataPagamento" />
 				<p:calendar id="dataPagamento" size="12" pattern="dd/MM/yyyy"
 					value="#{lancamentoBean.lancamento.dataPagamento}"/>
-
-				<p:outputLabel value="Comprovante de pagamento" for="comprovante" />
-				<p:fileUpload id="comprovante" auto="true" process="@this"
-					fileUploadListener="#{lancamentoBean.comprovanteListener}" />
-				
-				<h:panelGroup>
-					<p:commandButton value="Salvar"
-						ajax="false"
-						action="#{lancamentoBean.salvar}" 
-						icon="ui-icon-disk" update="@form"
-						styleClass="botao-grande"/>
-					<p:spacer width="5"/>	
-					<p:commandButton value="Salvar e Novo"
-						ajax="false"
-						action="#{lancamentoBean.salvarNovo}" 
-						icon="ui-icon-check" update="@form"
-						styleClass="botao-grande"/>
-				</h:panelGroup>						
 			</h:panelGrid>
+			
+			<h:panelGrid columns="1" layout="grid" styleClass="ui-fluid painel">
+				<p:outputLabel value="Comprovante de pagamento" for="comprovante" />
+				<h:panelGrid columns="3">
+					<p:inputText id="comprovante" readonly="true" size="33"
+						value="#{lancamentoBean.lancamento.nomeArquivo}"/>
+
+					<p:commandButton value="Download" ajax="false" icon="ui-icon-arrowthick-1-s" 
+						actionListener="#{lancamentoBean.downloadComprovante}"
+						disabled="#{lancamentoBean.lancamento.nomeArquivo == null}">
+						<p:fileDownload value="#{lancamentoBean.fileDownload}" />
+					</p:commandButton>
+					
+					<p:fileUpload id="upload" label="Selecione" auto="true"  						
+						process="@this" update="comprovante" 
+						fileUploadListener="#{lancamentoBean.comprovanteListener}" />
+				</h:panelGrid>
+			</h:panelGrid>		
+					
+			<h:panelGroup>
+				<p:commandButton value="Salvar"
+					ajax="false"
+					action="#{lancamentoBean.salvar}" 
+					icon="ui-icon-disk" update="@form"
+					styleClass="botao-grande"/>
+				<p:spacer width="5"/>	
+				<p:commandButton value="Salvar e Novo"
+					ajax="false"
+					action="#{lancamentoBean.salvarNovo}" 
+					icon="ui-icon-check" update="@form"
+					styleClass="botao-grande"/>
+			</h:panelGroup>						
+			
 		</h:form>
 	</ui:define>
 </ui:composition>

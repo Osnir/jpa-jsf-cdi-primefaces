@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import org.hibernate.exception.ConstraintViolationException;
@@ -75,6 +76,18 @@ public abstract class BaseDao<T> implements Serializable {
 		return this.executeHqlQuery("from " + this.persistentClass.getSimpleName());
 	}
 
+	public T find(String hql, Map<String, Object> params) throws DataAccessException {
+		try {
+			TypedQuery<T> query = this.manager.createQuery(hql, this.persistentClass);
+			this.setParameters(query, params);			
+			return query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		} catch (Exception e) {
+			throw new DataAccessException(e);
+		}
+	}
+	
 	public List<T> executeHqlQuery(String hql) throws DataAccessException {
 		return this.executeHqlQuery(hql, null);
 	}

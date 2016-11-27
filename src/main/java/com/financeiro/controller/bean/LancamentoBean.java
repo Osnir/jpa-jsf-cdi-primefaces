@@ -1,12 +1,14 @@
 package com.financeiro.controller.bean;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import javax.faces.event.AjaxBehaviorEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 import com.financeiro.model.Despesa;
@@ -14,8 +16,8 @@ import com.financeiro.model.Lancamento;
 import com.financeiro.model.TipoLancamento;
 import com.financeiro.repository.Despesas;
 import com.financeiro.repository.Lancamentos;
-import com.financeiro.service.LancamentoService;
 import com.financeiro.service.BusinessException;
+import com.financeiro.service.LancamentoService;
 
 @Named
 @javax.faces.view.ViewScoped
@@ -32,17 +34,16 @@ public class LancamentoBean extends BaseBean {
 
 	private Lancamento lancamento;
 	private List<Lancamento> lancamentos;
-
+	private StreamedContent fileDownload;
+   
 	public String novoLancamento() {
 		return "/pages/interno/CadastroLancamento?faces-redirect=true";
 	}
 
 	public void prepararCadastro() {
-
 		if (this.lancamento == null) {
 			this.lancamento = new Lancamento();
 		}
-
 	}
 
 	public void salvar() {
@@ -104,20 +105,23 @@ public class LancamentoBean extends BaseBean {
 		}
 	}
 
-	public void dataVencimentoAlterada(AjaxBehaviorEvent event) {
-		if (this.lancamento.getDataPagamento() == null) {
-			this.lancamento.setDataPagamento(this.lancamento.getDataVencimento());
-		}
-	}
-
 	public void comprovanteListener(FileUploadEvent event) {
 		UploadedFile uploadedFile = event.getFile();
-
+		String nome = uploadedFile.getFileName() + "|" +  uploadedFile.getContentType();
+		
 		try {
+			this.lancamento.setNomeComprovante(nome);
 			this.lancamento.setComprovantePagamento(uploadedFile.getContents());
 		} catch (Exception e) {
 			this.addErrorMessage("Erro ao carregar comprovante de pagamento.");
 		}
+	}
+	
+	public void downloadComprovante() {
+		this.fileDownload = new DefaultStreamedContent(new ByteArrayInputStream(
+				this.lancamento.getComprovantePagamento()), 
+				this.lancamento.getContentType(), 
+				this.lancamento.getNomeArquivo());
 	}
 	
 	public List<Lancamento> getLancamentos() {
@@ -131,8 +135,12 @@ public class LancamentoBean extends BaseBean {
 	public Lancamento getLancamento() {
 		return lancamento;
 	}
-
+	
 	public void setLancamento(Lancamento lancamento) {
 		this.lancamento = lancamento;
+	}
+	
+	public StreamedContent getFileDownload() {
+		return fileDownload;
 	}
 }

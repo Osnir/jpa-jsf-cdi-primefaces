@@ -36,7 +36,11 @@ public class Lancamentos extends BaseDao<Lancamento> {
 	}
 
 	public Lancamento porId(Long id) throws DataAccessException {
-		return this.find(id);
+		String hql = "from Lancamento fetch all properties where id = :id";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		
+		return this.find(hql, params);
 	}
 
 	public List<Lancamento> todos() throws DataAccessException {
