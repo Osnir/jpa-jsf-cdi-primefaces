@@ -20,6 +20,33 @@
 			
 			<div><h1>Cadastro de despesas</h1></div>
 			
+			<p:toolbar styleClass="tool-bar">
+				<f:facet name="left">
+					<p:commandButton value="Salvar"
+						action="#{despesaBean.salvar}" 
+						icon="ui-icon-disk" update="@form"
+						styleClass="botao-tool-bar"/>
+					<p:spacer width="5"/>	
+					<p:commandButton value="Salvar e Novo"
+						action="#{despesaBean.salvarNovo}" 
+						icon="ui-icon-check" update="@form"
+						styleClass="botao-tool-bar"/>
+					<p:commandButton value="Exluir" process="@this"
+						onclick="PF('dlgExcluirVar').show();"
+						icon="ui-icon-trash"
+						styleClass="botao-tool-bar"
+						disabled="#{despesaBean.despesa.id == null}"/>						
+					<span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+        		    </span>
+					<p:commandButton value="Voltar"
+						action="/pages/interno/ConsultaDespesas?faces-redirect=true" 
+						icon="ui-icon-arrowreturnthick-1-w" 
+						styleClass="botao-tool-bar"
+						immediate="true"/>        		    
+				</f:facet>
+			</p:toolbar>
+						
 			<h:panelGrid columns="1" layout="grid" styleClass="ui-fluid painel">
 				<p:outputLabel value="Despesa" for="despesa"/>
 				<p:inputText id="despesa" size="60"
@@ -34,22 +61,24 @@
 					itemValue="#{categoria}"
 					minQueryLength="2" maxResults="10"
 					value="#{despesaBean.despesa.categoria}"
-					completeMethod="#{despesaBean.pesquisarCategorias}"/>
-
-				<p:spacer height="10"/>
-				
-				<h:panelGroup>
-					<p:commandButton value="Salvar"
-						action="#{despesaBean.salvar}" 
-						icon="ui-icon-disk" update="@form"
-						styleClass="botao-grande"/>
-					<p:spacer width="5"/>	
-					<p:commandButton value="Salvar e Novo"
-						action="#{despesaBean.salvarNovo}" 
-						icon="ui-icon-check" update="@form"
-						styleClass="botao-grande"/>
-				</h:panelGroup>						
+					completeMethod="#{despesaBean.pesquisarCategorias}"/>					
 			</h:panelGrid>
+			
+			<!-- MODAL EXCLUIR -->
+			<p:dialog id="dlgExcluir" widgetVar="dlgExcluirVar" header="Aviso" modal="true"
+				closeOnEscape="true" resizable="false" closable="false" width="350" height="100">
+				<div class="mensagem">
+					<h:outputLabel value="Deseja excluir a despesa?"/>
+				</div>
+				
+				<div class="botoes">
+					<p:commandButton value="Sim" process="@this" update="@form" 
+						actionListener="#{despesaBean.excluir}" onclick="dlgExcluirVar.hide();"
+						styleClass="botao-medio"/>
+					<p:commandButton value="Não" process="@this"
+						onclick="dlgExcluirVar.hide();" styleClass="botao-medio"/>
+				</div>
+			 </p:dialog>			
 		</h:form>
 	</ui:define>
 </ui:composition>

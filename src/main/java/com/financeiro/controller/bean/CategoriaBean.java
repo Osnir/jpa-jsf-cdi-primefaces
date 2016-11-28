@@ -59,6 +59,7 @@ public class CategoriaBean extends BaseBean {
 	public void excluir() {
 		try {
 			this.service.excluir(this.categoria);
+			this.categoria = new Categoria();
 			this.consultar();
 			this.addInfoMessage("Categoria excluída com sucesso!");
 		} catch (BusinessException ex) {

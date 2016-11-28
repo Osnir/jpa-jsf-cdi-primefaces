@@ -64,6 +64,7 @@ public class DespesaBean extends BaseBean {
 	public void excluir() {
 		try {
 			this.service.excluir(this.despesa);
+			this.despesa = new Despesa();
 			this.consultar();
 			this.addInfoMessage("Despesa excluída com sucesso!");
 		} catch (BusinessException ex) {

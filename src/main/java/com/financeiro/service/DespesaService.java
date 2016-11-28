@@ -11,6 +11,7 @@ import com.financeiro.model.Lancamento;
 import com.financeiro.repository.Despesas;
 import com.financeiro.repository.Lancamentos;
 import com.financeiro.util.Transactional;
+import com.financeiro.util.Util;
 
 public class DespesaService implements Serializable {
 
@@ -23,6 +24,9 @@ public class DespesaService implements Serializable {
 	
 	@Transactional
 	public Despesa Salvar(Despesa despesa) throws BusinessException, DataAccessException {
+		if (Util.isEmptyOrNull(despesa.getNome())) {
+			throw new BusinessException("Despesa deve ser informada.");
+		}
 		if (this.DespesaExistente(despesa)) {
 			throw new BusinessException("Já existe uma despesa cadastrada com esse nome.");
 		}

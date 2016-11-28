@@ -72,6 +72,7 @@ public class LancamentoBean extends BaseBean {
 	public void excluir() {
 		try {
 			this.service.excluir(this.lancamento);
+			this.lancamento = new Lancamento();
 			this.consultar();
 		} catch (BusinessException e) {
 			this.addErrorMessage(e);

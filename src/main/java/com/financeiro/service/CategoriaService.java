@@ -11,6 +11,7 @@ import com.financeiro.model.Despesa;
 import com.financeiro.repository.Categorias;
 import com.financeiro.repository.Despesas;
 import com.financeiro.util.Transactional;
+import com.financeiro.util.Util;
 
 public class CategoriaService implements Serializable {
 
@@ -23,6 +24,9 @@ public class CategoriaService implements Serializable {
 	
 	@Transactional
 	public Categoria Salvar(Categoria categoria) throws BusinessException, DataAccessException {
+		if (Util.isEmptyOrNull(categoria.getNome())) {
+			throw new BusinessException("Categoria deve ser informada.");
+		}
 		if (this.categoriaExistente(categoria)) {
 			throw new BusinessException("Já existe uma categoria cadastrada com esse nome.");
 		}
