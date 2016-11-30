@@ -18,21 +18,61 @@
 		
 			<div><h1>Lançamentos</h1></div>
 			
-			<p:commandButton value="Novo" icon="ui-icon-plus" 
-				styleClass="botao-medio" action="#{lancamentoBean.novoLancamento}" />
-		
-			<h:panelGroup id="pngPesquisa" style="float: right" styleClass="panel-filtro">
-				<p:inputText value="#{lancamentoBean.filtro}" placeholder="Pesquisar..." size="50"/>
-				<p:commandButton
-					actionListener="#{lancamentoBean.pesquisar}" 
-					process="pngPesquisa" update="gridLancamento" icon="ui-icon-search"/>
-			</h:panelGroup>
+			<p:toolbar id="toolbar" styleClass="toolbar">
+				<f:facet name="left">
+					<p:commandButton value="Novo" icon="ui-icon-plus" 
+						action="#{lancamentoBean.novoLancamento}" />
+						
+					<span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+        		    </span>	
+        		    						
+					<p:button title="Editar"
+						icon="ui-icon-pencil"
+						styleClass="botao-toolbar"
+						outcome="/pages/interno/CadastroLancamento"
+						disabled="#{lancamentoBean.lancamento.id == null}">
+						<f:param name="id" value="#{lancamentoBean.lancamento.id}"/>
+					</p:button>
+											
+					<p:commandButton title="Excluir" 
+						process="@this" update="gridLancamento toolbar"
+						icon="ui-icon-trash"
+						styleClass="botao-toolbar"
+						action="#{lancamentoBean.excluir}"
+						disabled="#{lancamentoBean.lancamento.id == null}">
+						<p:confirm icon="ui-icon-alert" header="Confirmar exclusão"
+							message="Deseja excluir o lançamento?"/>							
+					</p:commandButton>
 					
+					<p:commandButton title="Exportar para XLS" 
+						icon="ui-icon-arrowthick-1-s"
+						styleClass="botao-toolbar"
+						ajax="false" immediate="true"
+						disabled="#{empty lancamentoBean.lancamentos}">
+						<p:dataExporter type="xls" target="gridLancamento" fileName="Lançamentos"/>
+					</p:commandButton>
+				</f:facet>
+				
+				<f:facet name="right">
+					<p:inputText id="txtPesquisa" value="#{lancamentoBean.filtro}" placeholder="Pesquisar..." size="50"/>
+					<p:commandButton process="@this, txtPesquisa" update="gridLancamento"
+						actionListener="#{lancamentoBean.pesquisar}" 
+						icon="ui-icon-search"/>				
+				</f:facet>
+			</p:toolbar>			
+						
 			<p:dataTable id="gridLancamento" value="#{lancamentoBean.lancamentos}"
-					var="entity" border="1" cellspacing="0"
-					cellpadding="2" paginator="true" rows="5"
-					paginatorPosition="bottom"
-					emptyMessage="Nenhum registro encontrado.">
+				var="entity" border="1" cellspacing="0"
+				cellpadding="2" paginator="true" rows="5"
+				paginatorPosition="bottom"
+				selection="#{lancamentoBean.lancamento}"
+				selectionMode="single" rowKey="#{entity.id}"
+				emptyMessage="Nenhum registro encontrado.">
+					
+				<p:ajax event="rowSelect" update=":frm:toolbar"/>
+				<p:ajax event="rowUnselect" update=":frm:toolbar"/>
+									
 				<p:column headerText="Id" sortBy="#{entity.id}" width="50" style="text-align: right">
 					<h:outputText value="#{entity.id}"/>
 				</p:column>									
@@ -61,37 +101,8 @@
 						<f:convertDateTime pattern="dd/MM/yyyy"
 							timeZone="America/Sao_Paulo"/>					
 					</h:outputText>
-				</p:column>
-				<p:column width="30">
-					<p:button icon="ui-icon-pencil" title="Editar"
-						outcome="/pages/interno/CadastroLancamento">
-						<f:param name="id" value="#{entity.id}"/>
-					</p:button>
-				</p:column>
-				<p:column width="30">
-					<p:commandButton icon="ui-icon-trash" title="Excluir" 
-						process="@this" onclick="PF('dlgExcluirVar').show();">
-						<f:setPropertyActionListener value="#{entity}"
-							target="#{lancamentoBean.lancamento}"/>
-					</p:commandButton>
-				</p:column>																		
-			</p:dataTable>
-			
-			<!-- MODAL EXCLUIR -->
-			<p:dialog id="dlgExcluir" widgetVar="dlgExcluirVar" header="Aviso" modal="true" 
-				closeOnEscape="true" resizable="false" closable="false" width="350" height="100">
-				<div class="mensagem">
-					<h:outputLabel value="Deseja excluir o lançamento?"/>
-				</div>
-				
-				<div class="botoes">
-					<p:commandButton value="Sim" process="@this" update="frm:gridLancamento" 
-						actionListener="#{lancamentoBean.excluir}" onclick="dlgExcluirVar.hide();"
-						styleClass="botao-medio"/>
-					<p:commandButton value="Não" process="@this"
-						onclick="dlgExcluirVar.hide();" styleClass="botao-medio"/>
-				</div>
-			 </p:dialog>			
+				</p:column>																
+			</p:dataTable>	
 		</h:form>	
 	</ui:define>
 </ui:composition>

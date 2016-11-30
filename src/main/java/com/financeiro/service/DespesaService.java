@@ -25,7 +25,7 @@ public class DespesaService implements Serializable {
 	@Transactional
 	public Despesa Salvar(Despesa despesa) throws BusinessException, DataAccessException {
 		if (Util.isEmptyOrNull(despesa.getNome())) {
-			throw new BusinessException("Despesa deve ser informada.");
+			throw new BusinessException("Despesa deve ser informado.");
 		}
 		if (this.DespesaExistente(despesa)) {
 			throw new BusinessException("Já existe uma despesa cadastrada com esse nome.");

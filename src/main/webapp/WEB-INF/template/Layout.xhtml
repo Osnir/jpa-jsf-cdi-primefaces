@@ -19,26 +19,17 @@
 		
 		<h:form>
 			<p:menubar>
-				<p:submenu label="Cadastros">
+				<p:submenu label="Funcionalidades">
 					<p:menuitem value="Categoria"
-						action="/pages/interno/CadastroCategoria?faces-redirect=true" />
-					<p:menuitem value="Despesa"
-						action="/pages/interno/CadastroDespesa?faces-redirect=true" />						
-					<p:menuitem value="Lançamento"
-						action="/pages/interno/CadastroLancamento?faces-redirect=true" />				
-				</p:submenu>
-				<p:submenu label="Consultas">
-					<p:menuitem value="Categorias"
 						action="/pages/interno/ConsultaCategorias?faces-redirect=true" />					
-					<p:menuitem value="Despesas"
+					<p:menuitem value="Despesa"
 						action="/pages/interno/ConsultaDespesas?faces-redirect=true" />					
-					<p:menuitem value="Lançamentos"
+					<p:menuitem value="Lançamento"
 						action="/pages/interno/ConsultaLancamentos?faces-redirect=true" />				
 				</p:submenu>
 				<p:submenu label="Sistema">
 					<p:menuitem value="Sair" action="#{loginBean.logout}"/>
-				</p:submenu>
-				
+				</p:submenu>				
 			</p:menubar>
 		</h:form>
 
@@ -58,6 +49,16 @@
 		<footer>
 			
 		</footer>
+		
+		<!-- Diálogo de confirmação do sistema -->
+		<h:form>
+			<p:confirmDialog global="true" width="350" closeOnEscape="true" >
+				<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no botao-medio"
+					icon="ui-icon-close"/>
+				<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes botao-medio"
+					icon="ui-icon-check"/>
+			</p:confirmDialog>
+		</h:form>
 	</h:body>
 </html>		
 		

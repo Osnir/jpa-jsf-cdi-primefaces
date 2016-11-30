@@ -96,4 +96,8 @@ public class CategoriaBean extends BaseBean {
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
 }

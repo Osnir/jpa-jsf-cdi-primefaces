@@ -25,7 +25,7 @@ public class CategoriaService implements Serializable {
 	@Transactional
 	public Categoria Salvar(Categoria categoria) throws BusinessException, DataAccessException {
 		if (Util.isEmptyOrNull(categoria.getNome())) {
-			throw new BusinessException("Categoria deve ser informada.");
+			throw new BusinessException("Categoria deve ser informado.");
 		}
 		if (this.categoriaExistente(categoria)) {
 			throw new BusinessException("Já existe uma categoria cadastrada com esse nome.");

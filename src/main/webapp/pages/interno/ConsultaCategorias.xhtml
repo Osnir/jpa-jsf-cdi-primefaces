@@ -18,21 +18,53 @@
 			
 			<div><h1>Categorias</h1></div>
 			
-			<p:commandButton value="Novo" icon="ui-icon-plus" 
-				styleClass="botao-medio" action="#{categoriaBean.novaCategoria}" />
+			<p:toolbar id="toolbar" styleClass="toolbar">
+				<f:facet name="left">
+					<p:commandButton value="Novo" icon="ui-icon-plus" 
+						action="#{categoriaBean.novaCategoria}" />
+					
+					<span class="ui-separator">
+		                <span class="ui-icon ui-icon-grip-dotted-vertical" />
+        		    </span>						
+					
+					<p:button title="Editar"
+						icon="ui-icon-pencil"
+						styleClass="botao-toolbar"
+						outcome="/pages/interno/CadastroCategoria"
+						disabled="#{categoriaBean.categoria.id == null}">
+						<f:param name="id" value="#{categoriaBean.categoria.id}"/>
+					</p:button>
+											
+					<p:commandButton title="Excluir" 
+						process="@this" update="gridCategoria toolbar"
+						icon="ui-icon-trash"
+						styleClass="botao-toolbar"
+						action="#{categoriaBean.excluir}"
+						disabled="#{categoriaBean.categoria.id == null}">						
+						<p:confirm icon="ui-icon-alert" header="Confirmar exclusão"
+							message="Deseja excluir a categoria?"/>
+					</p:commandButton>																		
+				</f:facet>
 				
-			<h:panelGroup id="pngPesquisa" style="float: right" styleClass="panel-filtro">
-				<p:inputText value="#{categoriaBean.filtro}" placeholder="Pesquisar..." size="50"/>
-				<p:commandButton
-					actionListener="#{categoriaBean.pesquisar}" 
-					process="pngPesquisa" update="gridCategoria" icon="ui-icon-search"/>
-			</h:panelGroup>
-			
+				<f:facet name="right">
+					<p:inputText id="txtPesquisa" value="#{categoriaBean.filtro}" placeholder="Pesquisar..." size="50"/>
+					<p:commandButton process="@this, txtPesquisa" update="gridCategoria"
+						actionListener="#{categoriaBean.pesquisar}" 
+						icon="ui-icon-search"/>				
+				</f:facet>
+			</p:toolbar>
+									
 			<p:dataTable id="gridCategoria" value="#{categoriaBean.categorias}"
 				var="entity" border="1" cellspacing="0"
 				cellpadding="2" paginator="true" rows="5"
 				paginatorPosition="bottom"
+				selection="#{categoriaBean.categoria}"
+				selectionMode="single" rowKey="#{entity.id}"
 				emptyMessage="Nenhum registro encontrado.">
+				
+				<p:ajax event="rowSelect" update=":frm:toolbar"/>
+				<p:ajax event="rowUnselect" update=":frm:toolbar"/>/>
+				
 				<p:column headerText="Id" sortBy="#{entity.id}" width="50" style="text-align: right">
 					<h:outputText value="#{entity.id}"/>
 				</p:column>
@@ -41,8 +73,8 @@
 				</p:column>
 				<p:column headerText="Situação" sortBy="#{entity.situacao}" width="100">
 					<h:outputText value="#{entity.situacao.descricao}"/>
-				</p:column>
-				
+				</p:column>				
+				<!-- 
 				<p:column width="30">
 					<p:button icon="ui-icon-pencil" title="Editar"
 						outcome="/pages/interno/CadastroCategoria">
@@ -55,24 +87,29 @@
 						<f:setPropertyActionListener value="#{entity}"
 							target="#{categoriaBean.categoria}"/>
 					</p:commandButton>
-				</p:column>																
+				</p:column>
+				-->																
 			</p:dataTable>
 			
-			<!-- MODAL EXCLUIR -->
+			<!-- MODAL EXCLUIR
 			<p:dialog id="dlgExcluir" widgetVar="dlgExcluirVar" header="Aviso" modal="true"
 				 closeOnEscape="true" resizable="false" closable="false" width="350" height="100">
+				 
+				 <p:defaultCommand target="bntExcluir" scope="dlgExcluir"/>
+				 
 				<div class="mensagem">
 					<h:outputLabel value="Deseja excluir a categoria?"/>
 				</div>
 				
 				<div class="botoes">
-					<p:commandButton value="Sim" process="@this" update="frm:gridCategoria" 
+					<p:commandButton id="bntExcluir" value="Sim" process="@this" update="gridCategoria toolbar" 
 						actionListener="#{categoriaBean.excluir}" onclick="dlgExcluirVar.hide();"
 						styleClass="botao-medio"/>
 					<p:commandButton value="Não" process="@this"
 						onclick="dlgExcluirVar.hide();" styleClass="botao-medio"/>
 				</div>
 			 </p:dialog>
+			 -->			
 		</h:form>	
 	</ui:define>
 </ui:composition>

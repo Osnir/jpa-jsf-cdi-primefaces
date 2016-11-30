@@ -10,6 +10,12 @@
     <welcome-file>Login.jsp</welcome-file>
   </welcome-file-list>
   
+  <!-- Permite comentários nas páginas  -->
+  <context-param>
+  	<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+    <param-value>true</param-value>
+  </context-param>
+  
   <!-- Filtro para Upload do Primefaces-->
   <context-param>
   	<param-name>primefaces.UPLOADER</param-name>
