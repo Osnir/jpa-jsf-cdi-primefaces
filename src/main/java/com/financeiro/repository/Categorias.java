@@ -49,7 +49,7 @@ public class Categorias extends BaseDao<Categoria> {
 	}
 	
 	public List<Categoria> porParteNome(String nome) throws DataAccessException {
-		StringBuilder hql = new StringBuilder("from Categoria where upper(nome) like :nome");
+		StringBuilder hql = new StringBuilder("from Categoria where upper(nome) like :nome and situacao = 'Ativo'");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("nome", "%" + nome.toUpperCase() + "%");
 
