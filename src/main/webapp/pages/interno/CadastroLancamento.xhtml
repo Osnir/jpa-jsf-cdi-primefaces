@@ -55,6 +55,7 @@
 					<f:selectItems value="#{lancamentoBean.tiposLancamentos}"
 						var="tipoLancamento" itemValue="#{tipoLancamento}" 
 						itemLabel="#{tipoLancamento.descricao}"/>
+						<p:ajax event="valueChange" update="dataPagamento"/>
 				</p:selectOneRadio>
 				
 				<p:outputLabel value="Despesa" for="despesa"/>
@@ -81,7 +82,8 @@
 					
 				<p:outputLabel value="Data de pagamento" for="dataPagamento" />
 				<p:calendar id="dataPagamento" size="12" mask="99/99/9999" pattern="dd/MM/yyyy"
-					value="#{lancamentoBean.lancamento.dataPagamento}"/>
+					value="#{lancamentoBean.lancamento.dataPagamento}"
+					disabled="#{lancamentoBean.lancamento.tipo == 'RECEITA'}"/>
 			</h:panelGrid>
 			
 			<h:panelGrid columns="1" layout="grid" styleClass="ui-fluid painel">

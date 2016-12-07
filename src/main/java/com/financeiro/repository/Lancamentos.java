@@ -57,7 +57,10 @@ public class Lancamentos extends BaseDao<Lancamento> {
 
 			hql.append(" where upper(l.despesa.nome) like :despesa");
 			params.put("despesa", "%" + filtro + "%");
-		
+			
+			hql.append(" or upper(l.situacao) like :situacao");
+			params.put("situacao", "%" + filtro + "%");
+			
 			if (Util.isNumber(filtro)) {
 				hql.append(" or l.id = :id");
 				params.put("id", Long.parseLong(filtro));

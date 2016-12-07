@@ -20,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Formula;
+
 import com.financeiro.util.Util;
 import com.financeiro.validation.DecimalPositivo;
 
@@ -56,6 +58,8 @@ public class Lancamento implements Serializable {
 	@Basic(fetch = FetchType.LAZY)
 	@Column(name = "comprovante_pagamento", nullable = true)
 	private byte[] comprovantePagamento;
+	@Formula("(select case isnull(l.data_pagamento) when 1 then 'Pendente' else 'Pago' end from Lancamento l where l.id = id)")
+	private String situacao;
 	
 	public Lancamento() {
 		this.tipo = TipoLancamento.DESPESA;
@@ -108,7 +112,13 @@ public class Lancamento implements Serializable {
 	}
 	public void setComprovantePagamento(byte[] comprovantePagamento) {
 		this.comprovantePagamento = comprovantePagamento;
+	}	
+	public String getSituacao() {
+		return situacao;
 	}
+//	public void setSituacao(String situacao) {
+//		this.situacao = situacao;
+//	}
 
 	public boolean dataPagamentoValida() {
 		return getDataPagamento() == null || !getDataPagamento().after(new Date());	
